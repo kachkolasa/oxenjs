@@ -9,11 +9,14 @@ const initialState: ModalState = {
 };
 
 const sidenavSlice = createSlice({
-    name: "modal",
+    name: "sidenav",
     initialState,
     reducers: {
         toggleWidgetsModal(state) {
             state.isWidgetsModalOpen = !state.isWidgetsModalOpen;
+        },
+        closeWidgetsModal(state) {
+            state.isWidgetsModalOpen = false;
         }
     },
 });

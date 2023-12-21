@@ -1,5 +1,8 @@
 import { CardText, Square, TypeH1 } from "react-bootstrap-icons";
 import SideNav from "./SideNav";
+import { useDispatch } from "react-redux";
+import { widgetsActions } from "@/store/slices/widgetsSlice";
+import { sidenavActions } from "@/store/slices/sidenavSlice";
 interface Widget {
     widget: string;
     title: string;
@@ -31,18 +34,29 @@ const widgets: Widgets = {
 }
 
 export default function WidgetsSideNav() {
+
+    const dispatch = useDispatch();
+
+    const dragStarted = (widget: string) => {
+        dispatch(widgetsActions.changeDraggingWidget(widget));
+        dispatch(sidenavActions.closeWidgetsModal())
+    }
+    const dragEnded = (widget: string) => {
+        dispatch(widgetsActions.changeDraggingWidget(null))
+    }
+
     return (
         <>
             <SideNav title="Widgets">
                 {Object.keys(widgets).map((widget, index) => {
                     return (
-                        <>
+                        <div key={index}>
                             <p><span className="rounded-full text-xs uppercase bg-zinc-200 px-4 py-1 font-light">{widget}</span></p>
 
                             <div className="grid grid-cols-3 gap-2 mt-3">
                                 {widgets[widget].map((widget, index) => {
                                     return (
-                                        <div draggable className="group rounded h-[80px] bg-white hover:bg-primary-500 hover:text-white text-center flex flex-wrap items-center justify-center cursor-grab">
+                                        <div key={index} draggable onDragEnd={() => dragEnded(widget.widget)} onDragStart={() => dragStarted(widget.widget)} className="group rounded h-[80px] bg-white hover:bg-primary-500 hover:text-white text-center flex flex-wrap items-center justify-center cursor-grab">
                                             <div className="w-full">
                                                 {widget.icon}
                                                 <p className="text-xs mt-1">{widget.title}</p>
@@ -51,7 +65,7 @@ export default function WidgetsSideNav() {
                                     )
                                 })}
                             </div>
-                        </>
+                        </div>
                     )
                 })}
             </SideNav>

@@ -2,6 +2,7 @@ import { sidenavActions } from "@/store/slices/sidenavSlice";
 import {Tooltip} from "@nextui-org/react";
 import { Files, GearWideConnected, Grid, Layers, LightningCharge } from 'react-bootstrap-icons'
 import { useDispatch } from "react-redux";
+import classes from '@/styles/Tools.module.scss'
 
 export default function Tools(){
     const dispatch = useDispatch();
@@ -15,7 +16,7 @@ export default function Tools(){
     }
 
     return (
-        <>
+        <div className={classes.tools}>
             <Tooltip content="Widgets" placement='right' className='tooltip'>
                 <span onClick={() => openTool('widgets')}>
                     <Grid />
@@ -41,6 +42,6 @@ export default function Tools(){
                     <LightningCharge />
                 </span>
             </Tooltip>
-        </>
+        </div>
     )
 }

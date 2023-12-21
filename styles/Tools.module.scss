@@ -1,0 +1,7 @@
+.tools{
+    @apply fixed top-[50%] translate-y-[-50%] left-[5px] z-[2] flex flex-col items-center justify-center space-y-1;
+
+    > span {
+        @apply w-14 h-14 bg-white shadow border rounded-full text-zinc-700 text-2xl flex items-center justify-center cursor-pointer hover:bg-primary-500 hover:text-white duration-100 hover:border-primary-500
+    }
+}
