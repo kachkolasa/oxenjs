@@ -1,0 +1,19 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+body{
+  @apply bg-zinc-800
+}
+
+.elements-list{
+  @apply grid grid-cols-4 gap-5;
+
+  > a > div{
+    @apply bg-zinc-50 rounded-xl border border-zinc-100 p-5 min-h-[300px] flex flex-col justify-center items-center text-2xl
+  }
+}
+
+.tooltip{
+  @apply bg-zinc-800 text-white
+}

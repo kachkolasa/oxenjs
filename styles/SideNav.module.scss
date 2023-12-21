@@ -1,0 +1,7 @@
+.wrapper{
+    @apply bg-zinc-50 px-5 fixed top-0 w-[350px] left-0 shadow-xl z-[99] h-full overflow-y-auto text-gray-800
+}
+
+.title{
+    @apply text-lg font-medium text-center my-10
+}
