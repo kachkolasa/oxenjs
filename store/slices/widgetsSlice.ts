@@ -1,10 +1,10 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
-interface ModalState {
+interface WidgetsState {
     currentlyDragging: string;
 }
 
-const initialState: ModalState = {
+const initialState: WidgetsState = {
     currentlyDragging: '',
 };
 

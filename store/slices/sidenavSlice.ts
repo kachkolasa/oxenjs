@@ -1,10 +1,10 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
-interface ModalState {
+interface SidenavState {
     isWidgetsModalOpen: boolean;
 }
 
-const initialState: ModalState = {
+const initialState: SidenavState = {
     isWidgetsModalOpen: false,
 };
 

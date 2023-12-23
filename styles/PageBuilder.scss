@@ -1,0 +1,7 @@
+.ox-editable-section{
+    @apply relative;
+
+    .ox-section-options{
+        @apply absolute top-2 left-10 bg-black rounded text-white text-sm flex ;
+    }
+}

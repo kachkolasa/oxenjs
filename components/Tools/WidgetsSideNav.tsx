@@ -37,11 +37,11 @@ export default function WidgetsSideNav() {
 
     const dispatch = useDispatch();
 
-    const dragStarted = (widget: string) => {
+    const hangleDragStart = (widget: string) => {
         dispatch(widgetsActions.changeDraggingWidget(widget));
         dispatch(sidenavActions.closeWidgetsModal())
     }
-    const dragEnded = (widget: string) => {
+    const handleDragEnd = (widget: string) => {
         dispatch(widgetsActions.changeDraggingWidget(null))
     }
 
@@ -56,7 +56,7 @@ export default function WidgetsSideNav() {
                             <div className="grid grid-cols-3 gap-2 mt-3">
                                 {widgets[widget].map((widget, index) => {
                                     return (
-                                        <div key={index} draggable onDragEnd={() => dragEnded(widget.widget)} onDragStart={() => dragStarted(widget.widget)} className="group rounded h-[80px] bg-white hover:bg-primary-500 hover:text-white text-center flex flex-wrap items-center justify-center cursor-grab">
+                                        <div key={index} draggable onDragEnd={() => handleDragEnd(widget.widget)} onDragStart={() => hangleDragStart(widget.widget)} className="group rounded h-[80px] bg-white hover:bg-primary-500 hover:text-white text-center flex flex-wrap items-center justify-center cursor-grab">
                                             <div className="w-full">
                                                 {widget.icon}
                                                 <p className="text-xs mt-1">{widget.title}</p>

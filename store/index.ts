@@ -1,11 +1,13 @@
 import { configureStore } from "@reduxjs/toolkit";
 import sidenavSlice from "./slices/sidenavSlice";
 import widgetsSlice from "./slices/widgetsSlice";
+import pageBuilderSlice from "./slices/pageBuilderSlice";
 
 const store = configureStore({
     reducer: {
         sidenav: sidenavSlice,
         widgets: widgetsSlice,
+        pagebuilder: pageBuilderSlice,
     },
 });
 
