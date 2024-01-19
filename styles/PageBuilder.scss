@@ -1,7 +1,48 @@
 .ox-editable-section{
     @apply relative;
 
+    &:hover{
+        .ox-section-padding-y .ox-handlers{
+            @apply flex;
+        }
+    }
+
+    .ox-section-padding-y{
+        @apply cursor-n-resize text-center w-full relative;
+
+        .ox-label{
+            @apply text-sm text-white bg-primary-500 hidden rounded-full px-3 py-1 absolute top-[50%] left-[50%] translate-x-[-50%] translate-y-[-50%];
+        }
+
+        .ox-handlers{
+            @apply absolute left-[50%] translate-x-[-50%] -bottom-3 w-full max-w-[80%] mx-auto hidden justify-between items-center opacity-[0.5];
+
+            .ox-handler{
+                @apply h-1 w-12 bg-primary-500 rounded-full 
+            }
+        }
+
+        &:hover{
+            @apply bg-primary-500/[0.1];
+
+            .ox-label{
+                @apply block;
+            }
+
+            .ox-handlers{
+                @apply opacity-100;
+            }
+        }
+    }
+
     .ox-section-options{
         @apply absolute top-2 left-10 bg-black rounded text-white text-sm flex ;
     }
+}
+
+.no-select{
+    user-select: none;
+    -moz-user-select: none;
+    -webkit-user-select: none;
+    -ms-user-select: none;
 }

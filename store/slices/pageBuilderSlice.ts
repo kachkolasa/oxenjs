@@ -1,7 +1,7 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
 interface PageBuilderSlice {
-    activeSection: string;
+    activeSection: string|null;
 }
 
 const initialState: PageBuilderSlice = {
