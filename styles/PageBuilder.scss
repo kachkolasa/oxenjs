@@ -7,8 +7,9 @@
         }
     }
 
+    // Section Padding Y
     .ox-section-padding-y{
-        @apply cursor-n-resize text-center w-full absolute top-0 left-0 w-full;
+        @apply cursor-n-resize text-center w-full absolute top-0 left-0 w-full z-[2];
 
         .ox-label{
             @apply text-sm text-white bg-primary-500 hidden rounded-full px-3 py-1 absolute top-[50%] left-[50%] translate-x-[-50%] translate-y-[-50%];
@@ -18,7 +19,7 @@
             @apply absolute left-[50%] translate-x-[-50%] -bottom-3 w-full max-w-[80%] mx-auto hidden justify-between items-center opacity-[0.5];
 
             .ox-handler{
-                @apply h-1 w-12 bg-primary-500 rounded-full 
+                @apply h-1.5 w-12 bg-primary-500 rounded-full 
             }
         }
 
@@ -35,8 +36,9 @@
         }
     }
 
+    // Section Options
     .ox-section-options{
-        @apply absolute top-2 left-10 rounded bg-black text-white text-sm flex overflow-x-hidden;
+        @apply absolute top-2 left-10 rounded bg-black text-white text-sm flex overflow-x-hidden z-[2];
 
         .sec-btn:hover{
             @apply bg-white bg-primary-500;

@@ -5,6 +5,7 @@ import React, { useRef } from 'react';
 import '@/styles/PageBuilder.scss';
 import AddNewSection from './Tools/AddNewSection';
 import SectionsContainer from './Tools/SectionsContainer';
+import ContextMenu from './Tools/ContextMenu';
 
 
 export default function PageBuilder(){
@@ -13,6 +14,7 @@ export default function PageBuilder(){
         <>
             {/* Website Builder Container */}
             <div className={classes.website}>
+                <ContextMenu />
 
                 {/* All Sections */}
                 <SectionsContainer />

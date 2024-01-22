@@ -2,10 +2,12 @@ import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
 interface PageBuilderSlice {
     activeSection: string|null;
+    activeColumn: string|null;
 }
 
 const initialState: PageBuilderSlice = {
     activeSection: '',
+    activeColumn: '',
 };
 
 const pagebuilderSlice = createSlice({
@@ -14,7 +16,10 @@ const pagebuilderSlice = createSlice({
     reducers: {
         activeSection(state, action){
             state.activeSection = action.payload;
-        }
+        },
+        activeColumn(state, action){
+            state.activeColumn = action.payload;
+        },
     },
 });
 
