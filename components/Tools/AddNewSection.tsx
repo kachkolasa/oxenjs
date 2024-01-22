@@ -1,8 +1,8 @@
 import { createRoot } from "react-dom/client";
-import SectionPaddingY from "./SectionPaddingY";
 import { PlusCircleFill } from "react-bootstrap-icons";
 import { generateRandomId } from "@/utils/helpers";
 import React from "react";
+import "@/styles/Website.scss";
 
 const section_classes = 'ox-section ox-editable-section';
 
@@ -10,11 +10,11 @@ const NewSection = () => {
     return (
         <>
             <div className="container mx-auto">
-                <div className="grid grid-cols-2 ox-section-row">
-                    <div className="col-span-1">
+                <div className="ox-section-row" data-cols="2">
+                    <div className="ox-section-col">
                         <h1 className='text-3xl'>Hello world</h1>
                     </div>
-                    <div className="col-span-1">
+                    <div className="ox-section-col">
                         <p className='text-base'>Lorem ipsum, dolor sit amet consectetur adipisicing elit. Suscipit, sint libero iure voluptates quas corporis qui impedit obcaecati numquam totam incidunt est quod, ipsa facere beatae quam similique! Libero, fuga?</p>
                     </div>
                 </div>

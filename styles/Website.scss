@@ -1,0 +1,17 @@
+.ox-section-row{
+    @apply grid relative;
+    
+    @for $i from 1 through 12{
+        &[data-cols="#{$i}"]{
+            @apply grid-cols-#{$i};
+        }
+    }
+
+    .ox-section-col{
+        @apply relative box-border border border-transparent;
+
+        &:hover{
+            @apply border border-dashed border-gray-400
+        }
+    }
+}

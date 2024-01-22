@@ -33,7 +33,6 @@ const OxenEvents = () => {
                 }
             }
         };
-
         const handleSectionMouseLeave = (event: Event) => {
             const target = event.currentTarget as HTMLElement;
             const section = target.closest('.ox-editable-section');
@@ -50,10 +49,39 @@ const OxenEvents = () => {
                 if (paddingContainer) {
                     section.removeChild(paddingContainer);
                 }
-
-                dispatch(pagebuilderActions.activeSection(null));
             }
         };
+
+        // Column Events
+        const handleColumnMouseEnter = (event: Event) => {
+            const target = event.currentTarget as HTMLElement;
+            const column = target.closest('.ox-section-col') as HTMLElement;
+            if (column) {
+                const id = column.id;
+                dispatch(pagebuilderActions.activeColumn(id));
+            }
+        }
+
+        // Website Builder Events
+        const handleBuilderRightClick = (event: MouseEvent) => {
+            event.preventDefault();
+            
+            // Showing the context menu
+            const contextMenu = document.querySelector('#ox-context-menu') as HTMLElement;
+            if(contextMenu){
+                contextMenu.style.display = 'block';
+                contextMenu.style.top = `${event.clientY}px`;
+                contextMenu.style.left = `${event.clientX}px`;
+            }
+        }
+        // Hide the context menu when clicked outside
+        document.addEventListener('click', (event) => {
+            const contextMenu = document.querySelector('#ox-context-menu') as HTMLElement;
+            if(contextMenu){
+                contextMenu.style.display = 'none';
+            }
+        });
+
 
 
         // Observer for the dynamic content
@@ -65,6 +93,20 @@ const OxenEvents = () => {
                 section.addEventListener('mouseenter', handleSectionMouseEnter);
                 section.addEventListener('mouseleave', handleSectionMouseLeave);
             });
+
+            // Column Events
+            const editableColumns = document.querySelectorAll('.ox-section-col');
+            editableColumns.forEach(column => {
+                column.addEventListener('mouseenter', handleColumnMouseEnter);
+                // column.addEventListener('mouseleave', handleSectionMouseLeave);
+            });
+
+            // Website Builder Container
+            const websiteContainer = document.getElementById('ox-website-container');
+            if(websiteContainer){
+                // Right Click Event
+                websiteContainer.addEventListener('contextmenu', handleBuilderRightClick);
+            }
         });
 
         return () => {
