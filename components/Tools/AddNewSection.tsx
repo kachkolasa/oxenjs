@@ -2,13 +2,13 @@ import { createRoot } from "react-dom/client";
 import SectionPaddingY from "./SectionPaddingY";
 import { PlusCircleFill } from "react-bootstrap-icons";
 import { generateRandomId } from "@/utils/helpers";
+import React from "react";
 
 const section_classes = 'ox-section ox-editable-section';
 
 const NewSection = () => {
     return (
         <>
-            <SectionPaddingY height={50} />
             <div className="container mx-auto">
                 <div className="grid grid-cols-2 ox-section-row">
                     <div className="col-span-1">
@@ -26,18 +26,54 @@ const NewSection = () => {
 const addNewSectionHandler = (e: React.MouseEvent<HTMLDivElement>) => {
     e.preventDefault();
     
-    const websiteContainer = document.getElementById('ox-website-container');
-    if(!websiteContainer) return console.error('Website container not found');
-    
-    
-    const section = document.createElement('section');
-    section.className = section_classes;
-    section.id = generateRandomId();
+    let websiteContainer = document.getElementById('ox-website-container');
+    if (!websiteContainer) return console.error('Website container not found');
 
-
-    websiteContainer.appendChild(section);
-    createRoot(section).render(<NewSection />);
+    // Pass NewSection as a JSX Element
+    addSectionToWebsite('end', websiteContainer, <NewSection />);
 }
+
+
+const addSectionToWebsite = (
+    position: 'end' | 'start' | 'after',
+    target: HTMLElement,
+    content: JSX.Element | HTMLElement
+) => {
+    // Check if the content is a cloned section
+    if (content instanceof HTMLElement && content.tagName === 'SECTION') {
+        // Append/prepend the cloned section directly based on the specified position
+        if (position === 'after') {
+            target.insertAdjacentElement('afterend', content);
+        } else if (position === 'end') {
+            target.appendChild(content);
+        } else if (position === 'start') {
+            target.prepend(content);
+        }
+    } else {
+        // For JSX elements or non-section HTMLElements
+        const section = document.createElement('section');
+        section.className = section_classes;
+        section.id = generateRandomId();
+
+        // Append/prepend the new section based on the specified position
+        if (position === 'after') {
+            target.insertAdjacentElement('afterend', section);
+        } else if (position === 'end') {
+            target.appendChild(section);
+        } else if (position === 'start') {
+            target.prepend(section);
+        }
+
+        // Render JSX element or append HTMLElement
+        if (React.isValidElement(content)) {
+            createRoot(section).render(content);
+        } else if (content instanceof HTMLElement) {
+            section.appendChild(content);
+        }
+    }
+}
+
+
 
 const AddNewSection = () => {
     return (
@@ -65,3 +101,5 @@ const AddNewSection = () => {
 }
 
 export default AddNewSection;
+
+export {addSectionToWebsite};

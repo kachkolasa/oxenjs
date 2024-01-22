@@ -3,10 +3,13 @@
 import Header from '@/components/Header';
 import PageBuilder from '@/components/PageBuilder';
 import Tools from '@/components/Tools';
+import OxenEvents from '@/components/Tools/Events';
 
 export default function Home() {
   return (
     <>
+    <OxenEvents />
+
     <main>
       <section>
         {/* Header */}
