@@ -1,15 +1,21 @@
+import { editable_column_target_class } from "./editable_classes";
 import { generateRandomId } from "./helpers";
 
-export const restructureRow = (row: HTMLElement) => {
+export const restructureRow = (row: HTMLElement, column_dragging: Boolean = false) => {
     const columns = row.querySelectorAll('.ox-section-col');
     const columnCount = columns.length;
-
-    if(columnCount === 0){
+    
+    if(columnCount === 0 && !column_dragging){
         row.remove();
         return;
     }
 
     row.setAttribute('data-cols', columnCount.toString());
+}
+
+export const restructureAllRows = (column_dragging: Boolean = false) => {
+    const rows = document.querySelectorAll('.ox-section-row');
+    rows.forEach(row => restructureRow(row as HTMLElement, column_dragging));
 }
 
 // Delete Column 
@@ -49,9 +55,27 @@ export const duplicateColumn = (columnId: string) => {
 }
 
 export const canAddColumn = (row: HTMLElement) => {
-    return row.querySelectorAll('.ox-section-col').length < 10;
+    return row.querySelectorAll('.ox-section-col:not(.dragging)').length < 10;
 }
 
 export const canDeleteColumn = (row: HTMLElement) => {
     return row.querySelectorAll('.ox-section-col').length > 1;
 }
+
+export const getDragAfterElementColumn = (row: HTMLElement, x: number) => {
+    const draggableElements = Array.from(row.querySelectorAll('.ox-section-col:not(.dragging)')) as HTMLElement[];
+
+    return draggableElements.reduce<{ offset: number; element: HTMLElement | null }>((closest, child) => {
+        const box = child.getBoundingClientRect();
+        const boxMiddleX = box.left + box.width / 2;
+        const offset = x - boxMiddleX;
+
+        if (offset < 0 && offset > closest.offset) {
+            return { offset, element: child };
+        } else {
+            return closest;
+        }
+    }, { offset: Number.NEGATIVE_INFINITY, element: null });
+}
+
+

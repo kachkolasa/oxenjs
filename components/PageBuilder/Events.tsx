@@ -10,6 +10,7 @@ import {
 } from "@/utils/editable_classes";
 import { createColumnOptions } from "./Column/ColumnOptions";
 import createColumnDragImage from "./Column/ColumnDragImage";
+import { canAddColumn, getDragAfterElementColumn, restructureAllRows, restructureRow } from "@/utils/columns";
 
 const OxenEvents = () => {
     const dispatch = useDispatch();
@@ -96,8 +97,12 @@ const OxenEvents = () => {
                 if(image){
                     dragEvent.dataTransfer?.setDragImage(image, 60, 60);
                 }
-                
-                // event.dataTransfer?.setDragImage(, column.id);
+            }
+
+            // Removing the section options
+            const sectionOptions = document.querySelector('.ox-section-options-container') as HTMLElement;
+            if(sectionOptions){
+                sectionOptions.remove();
             }
         }
         const handleColumnDragEnd = (event: Event) => {
@@ -128,6 +133,40 @@ const OxenEvents = () => {
                 column.setAttribute('draggable', 'false');
             }
         }
+
+        // Row Dragging Events
+        const handleRowDragOver = (event: Event) => {
+            const dragEvent = event as DragEvent;
+            dragEvent.preventDefault();
+            const overRow = event.currentTarget as HTMLElement; // The row being hovered over
+
+            // Checking if row can handle another column
+            const can_add_column = canAddColumn(overRow);
+            if(!can_add_column) return; // Exit the function if the row can't handle another column
+
+            restructureAllRows(true)
+            const column = document.querySelector('.dragging.' + editable_column_target_class) as HTMLElement;
+            
+            if(!column) return; // Exit the function if there is no column being dragged
+
+            // Check if the dragged element is indeed a column
+            if (!column.classList.contains('ox-section-col')) {
+                return; // Exit the function if it's not a column
+            }
+
+            const afterCol = getDragAfterElementColumn(overRow, dragEvent.clientX);
+
+            if (column.parentElement !== overRow) {
+                column.parentElement?.removeChild(column); // Remove from old parent if different
+            }
+
+            if (afterCol && afterCol.element && afterCol.element.parentElement === overRow) {
+                overRow.insertBefore(column, afterCol.element);
+            } else {
+                overRow.appendChild(column);
+            }
+        }
+
 
         // Website Builder Events
         const handleBuilderRightClick = (event: MouseEvent) => {
@@ -209,6 +248,12 @@ const OxenEvents = () => {
                 column.addEventListener('mouseleave', handleColumnGrabbleMouseLeave);
             });
 
+            // Rows Events
+            const editableRows = document.querySelectorAll('.ox-section-row');
+            editableRows.forEach(row => {
+                row.addEventListener('dragover', handleRowDragOver);
+            });
+
             // Website Builder Container
             const websiteContainer = document.getElementById('ox-website-container');
             if(websiteContainer){
@@ -241,6 +286,12 @@ const OxenEvents = () => {
             grabbleColumns.forEach(column => {
                 column.removeEventListener('mouseenter', handleColumnGrabbleMouseEnter);
                 column.removeEventListener('mouseleave', handleColumnGrabbleMouseLeave);
+            });
+
+            // Rows Events
+            const editableRows = document.querySelectorAll('.ox-section-row');
+            editableRows.forEach(row => {
+                row.removeEventListener('dragover', handleRowDragOver);
             });
 
             // Website Builder Container

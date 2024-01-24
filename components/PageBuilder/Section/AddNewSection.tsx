@@ -55,6 +55,7 @@ const addSectionToWebsite = (
         const section = document.createElement('section');
         section.className = section_classes;
         section.id = generateRandomId();
+        section.style.paddingTop = '50px';
 
         // Append/prepend the new section based on the specified position
         if (position === 'after') {
