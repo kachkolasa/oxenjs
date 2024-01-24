@@ -2,7 +2,7 @@
 import { RootState } from "@/store";
 import {useSelector, useDispatch} from "react-redux";
 import { sidenavActions } from "@/store/slices/sidenavSlice";
-import WidgetsSideNav from "../Tools/WidgetsSideNav";
+import WidgetsSideNav from "../PageBuilder/WidgetsSideNav";
 import { AnimatePresence } from "framer-motion";
 
 export default function SideNavs(){
@@ -17,4 +17,4 @@ export default function SideNavs(){
             </AnimatePresence>
         </>
     )
-}
+} 

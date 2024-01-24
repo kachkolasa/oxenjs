@@ -3,9 +3,9 @@
 import classes from '@/styles/PageBuilder.module.scss';
 import React, { useRef } from 'react';
 import '@/styles/PageBuilder.scss';
-import AddNewSection from './Tools/AddNewSection';
-import SectionsContainer from './Tools/SectionsContainer';
-import ContextMenu from './Tools/ContextMenu';
+import AddNewSection from './PageBuilder/Section/AddNewSection';
+import SectionsContainer from './PageBuilder/Section/SectionsContainer';
+import ContextMenu from './PageBuilder/ContextMenu/ContextMenu';
 
 
 export default function PageBuilder(){

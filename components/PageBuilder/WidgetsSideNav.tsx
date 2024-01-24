@@ -1,5 +1,5 @@
 import { CardText, Square, TypeH1 } from "react-bootstrap-icons";
-import SideNav from "./SideNav";
+import SideNav from "../UI/SideNav";
 import { useDispatch } from "react-redux";
 import { widgetsActions } from "@/store/slices/widgetsSlice";
 import { sidenavActions } from "@/store/slices/sidenavSlice";

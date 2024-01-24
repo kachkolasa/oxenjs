@@ -36,7 +36,7 @@ const SectionPaddingY: React.FC<SectionPaddingProps> = (props) => {
 
     return (
         <div
-            className='ox-section-padding-y ox-builder-feature'
+            className='ox-section-padding-y'
             style={{
                 paddingTop: paddingHeight + 'px',
                 maxHeight: '100%' // or any other value as per your design
@@ -60,7 +60,7 @@ export const createSectionPadding = (section: HTMLElement) => {
     const paddingTop = section.style.paddingTop ? parseInt(section.style.paddingTop) : 0;
 
     const container = document.createElement('div');
-    container.className = 'ox-section-padding-y-container';
+    container.className = 'ox-section-padding-y-container ox-builder-feature';
     section.prepend(container);
     createRoot(container).render(<SectionPaddingY height={paddingTop} />);
 };
