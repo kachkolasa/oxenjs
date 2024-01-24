@@ -1,5 +1,5 @@
 export const generateRandomId = () => {
-    const length = 8;
+    const length = 20;
     const characters = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
     let result = '';
 

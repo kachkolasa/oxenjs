@@ -1,4 +1,4 @@
-import { addSectionToWebsite } from "@/components/Tools/AddNewSection";
+import { addSectionToWebsite } from "@/components/PageBuilder/Section/AddNewSection";
 import { generateRandomId } from "./helpers";
 
 // Delete Section 

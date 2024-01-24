@@ -42,7 +42,7 @@ export default function SectionsContainer(){
     }
 
     return (
-        <div ref={websiteContent} id="ox-website-container" onDragOver={handleDragOver} onDragEnter={handleDragEnter} onDrop={handleDrop}>
+        <div ref={websiteContent} id="ox-website-container">
             
         </div>
     )

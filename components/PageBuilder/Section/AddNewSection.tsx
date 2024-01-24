@@ -3,6 +3,7 @@ import { PlusCircleFill } from "react-bootstrap-icons";
 import { generateRandomId } from "@/utils/helpers";
 import React from "react";
 import "@/styles/Website.scss";
+import { editable_column_target_class } from "@/utils/editable_classes";
 
 const section_classes = 'ox-section ox-editable-section';
 
@@ -11,10 +12,10 @@ const NewSection = () => {
         <>
             <div className="container mx-auto">
                 <div className="ox-section-row" data-cols="2">
-                    <div className="ox-section-col">
+                    <div className={`ox-section-col ${editable_column_target_class}`} data-id={generateRandomId()}>
                         <h1 className='text-3xl'>Hello world</h1>
                     </div>
-                    <div className="ox-section-col">
+                    <div className={`ox-section-col ${editable_column_target_class}`} data-id={generateRandomId()}>
                         <p className='text-base'>Lorem ipsum, dolor sit amet consectetur adipisicing elit. Suscipit, sint libero iure voluptates quas corporis qui impedit obcaecati numquam totam incidunt est quod, ipsa facere beatae quam similique! Libero, fuga?</p>
                     </div>
                 </div>
@@ -54,6 +55,7 @@ const addSectionToWebsite = (
         const section = document.createElement('section');
         section.className = section_classes;
         section.id = generateRandomId();
+        section.style.paddingTop = '50px';
 
         // Append/prepend the new section based on the specified position
         if (position === 'after') {
