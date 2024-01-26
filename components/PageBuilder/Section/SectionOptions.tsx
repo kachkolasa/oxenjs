@@ -1,4 +1,4 @@
-import { Back, GearWideConnected, Trash } from 'react-bootstrap-icons';
+import { ArrowsMove, Back, GearWideConnected, Trash } from 'react-bootstrap-icons';
 import { createRoot } from 'react-dom/client';
 import { useEffect, useState } from 'react';
 import Tooltip from '../../UI/Tooltip';
@@ -23,6 +23,11 @@ const SectionOptions = () => {
 
     return (
         <div className={section_options_class}>
+            {/* Drag Section Handler */}
+            <button className='flex gap-2 items-center p-2 pr-3 bg-zinc-500 cursor-grab ox-section-grabble'>
+                <span className="text-lg w-[25px] h-[25px] flex items-center justify-center"><ArrowsMove /></span>
+            </button>
+
             {/* Section Settings */}
             <Tooltip text="Edit">
                 <button className='flex gap-2 items-center p-2 pr-3 sec-btn'>

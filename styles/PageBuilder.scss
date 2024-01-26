@@ -66,6 +66,16 @@
     @apply absolute top-2 right-0 bg-primary-500 text-white text-sm flex overflow-x-hidden z-[2];
 }
 
+.ox-section{
+    &.dragging{
+        &::after{
+            @apply absolute top-0 left-0 w-full h-full bg-primary-400 rounded z-[2] content-[''];
+        }
+
+        @apply overflow-hidden;
+    }
+}
+
 .ox-section-col{
     @apply relative box-border border border-transparent;
 

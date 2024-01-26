@@ -30,6 +30,34 @@ export const duplicateSection = (sectionId: string) => {
 
     clonedSection.querySelectorAll('.ox-builder-feature').forEach(el => el.remove());
 
+    // Adding the new id to the section's all elements that has an data-id or id attribute
+    clonedSection.querySelectorAll('[data-id], [id]').forEach(el => {
+        const newId = generateRandomId();
+
+        // Checking if the element has an id attribute
+        if(el.hasAttribute("id")){
+            el.setAttribute('id', newId);
+        }
+        if(el.hasAttribute("data-id")){
+            el.setAttribute('data-id', newId);
+        }
+    });
+
     // Pass the parent and the original section as reference
     addSectionToWebsite('after', section, clonedSection);
+}
+
+export const getDragAfterElementSection = (container: HTMLElement, y: number) => {
+    const draggableSections = Array.from(container.querySelectorAll('.ox-section:not(.dragging)')) as HTMLElement[];
+
+    return draggableSections.reduce<{ offset: number; element: HTMLElement | null }>((closest, section) => {
+        const box = section.getBoundingClientRect();
+        const offset = y - box.top - box.height / 2;
+
+        if (offset < 0 && offset > closest.offset) {
+            return { offset, element: section };
+        } else {
+            return closest;
+        }
+    }, { offset: Number.NEGATIVE_INFINITY, element: null });
 }
