@@ -1,13 +1,5 @@
-import { editable_column_target_class } from "./editable_classes";
 import { generateRandomId } from "./helpers";
 import { restructureRow } from "./rows";
-
-
-
-export const restructureAllRows = (column_dragging: Boolean = false) => {
-    const rows = document.querySelectorAll('.ox-section-row');
-    rows.forEach(row => restructureRow(row as HTMLElement, column_dragging));
-}
 
 // Delete Column 
 export const deleteColumn = (columnId: string) => {

@@ -1,5 +1,5 @@
 import { useEffect } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { pagebuilderActions } from '@/store/slices/pageBuilderSlice';
 import { createSectionOptions } from "./Section/SectionOptions";
 import { createSectionPadding } from "./Section/SectionPaddingY";
@@ -10,9 +10,12 @@ import {
 } from "@/utils/editable_classes";
 import { createColumnOptions } from "./Column/ColumnOptions";
 import createColumnDragImage from "./Column/ColumnDragImage";
-import { canAddColumn, getDragAfterElementColumn, restructureAllRows } from "@/utils/columns";
+import { canAddColumn, getDragAfterElementColumn } from "@/utils/columns";
+import { restructureAllRows, restructureRow } from "@/utils/rows";
 import createSectionDragImage from "./Section/SectionDragImage";
 import { getDragAfterElementSection } from "@/utils/sections";
+import { sidenavActions } from "@/store/slices/sidenavSlice";
+import { createWidget, widgetsContent } from "./Widgets/Widget";
 
 const OxenEvents = () => {
     const dispatch = useDispatch();
@@ -145,6 +148,38 @@ const OxenEvents = () => {
                 }
             }
         }
+        const handleColumnDrop = (e: Event) => {
+            e.stopPropagation();
+            e.preventDefault();
+    
+            const target = e.target as HTMLDivElement;
+    
+            const column = target.closest('.ox-section-col');
+            if(!column) return;
+    
+            const row = column.closest('.ox-section-row') as HTMLElement;
+            if(!row) return;
+            
+            const draggingWidget = document.body.getAttribute('data-dragging-widget');
+            if(!draggingWidget) return;
+            
+
+            const widget = widgetsContent[draggingWidget];
+            
+            createWidget(column, widget);
+            restructureRow(row);
+
+            // Reset the dragging widget
+            document.body.removeAttribute('data-dragging-widget');
+        }
+        const handleColumnDragEnter = (e: Event) => {
+            e.stopPropagation();
+            e.preventDefault();
+        }
+    
+        const handleColumnDragOver = (e: Event) => {
+            e.preventDefault(); // This line allows the drop to occur.
+        }
 
         // Column Dragging Events
         const handleColumnGrabbleMouseEnter = (event: Event) => {
@@ -160,6 +195,12 @@ const OxenEvents = () => {
             if (column) {
                 column.setAttribute('draggable', 'false');
             }
+        }
+
+        // Empty Column Events
+        const handleEmptyColumnClick = (event: Event) => {
+            event.preventDefault();
+            dispatch(sidenavActions.toggleWidgetsModal());
         }
 
         // Section Dragging Events
@@ -212,6 +253,15 @@ const OxenEvents = () => {
             }
         }
 
+        // Widgets Events
+        const handleWidgetMouseEnter = (event: Event) => {
+            const target = event.currentTarget as HTMLElement;
+            const widget = target.closest('.' + editable_widget_target_class) as HTMLElement;
+            if (widget) {
+                const id = widget.getAttribute('data-id') as string;
+                dispatch(pagebuilderActions.activeWidget(id));
+            }
+        }
 
         // Website Builder Events
         const handleBuilderRightClick = (event: MouseEvent) => {
@@ -254,7 +304,6 @@ const OxenEvents = () => {
                     contextMenu.style.left = `${event.clientX}px`;
                     contextMenu.style.right = 'auto';
                 }
-
             }
         
         }
@@ -317,6 +366,9 @@ const OxenEvents = () => {
                 column.addEventListener('mouseleave', handleColumnMouseLeave);
                 column.addEventListener('dragstart', handleColumnDragStart);
                 column.addEventListener('dragend', handleColumnDragEnd);
+                column.addEventListener('drop', handleColumnDrop);
+                column.addEventListener('dragenter', handleColumnDragEnter);
+                column.addEventListener('dragover', handleColumnDragOver);
             });
 
             // Column Dragging
@@ -326,10 +378,22 @@ const OxenEvents = () => {
                 column.addEventListener('mouseleave', handleColumnGrabbleMouseLeave);
             });
 
+            // Empty Columns
+            const emptyColumn = document.querySelectorAll('.ox-empty-column');
+            emptyColumn.forEach(column => {
+                column.addEventListener('click', handleEmptyColumnClick);
+            });
+
             // Rows Events
             const editableRows = document.querySelectorAll('.ox-section-row');
             editableRows.forEach(row => {
                 row.addEventListener('dragover', handleRowDragOver);
+            });
+
+            // Widget
+            const widgets = document.querySelectorAll('.' + editable_widget_target_class);
+            widgets.forEach(widget => {
+                widget.addEventListener('mouseenter', handleWidgetMouseEnter);
             });
 
             // Website Builder Container
@@ -367,6 +431,9 @@ const OxenEvents = () => {
                 column.removeEventListener('mouseleave', handleColumnMouseLeave);
                 column.removeEventListener('dragstart', handleColumnDragStart);
                 column.removeEventListener('dragend', handleColumnDragEnd);
+                column.removeEventListener('drop', handleColumnDrop);
+                column.removeEventListener('dragenter', handleColumnDragEnter);
+                column.removeEventListener('dragover', handleColumnDragOver);
             });
 
             // Column Dragging

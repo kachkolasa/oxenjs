@@ -3,10 +3,10 @@ import { PlusCircleFill } from "react-bootstrap-icons";
 import { generateRandomId } from "@/utils/helpers";
 import React from "react";
 import "@/styles/Website.scss";
-import { editable_column_target_class } from "@/utils/editable_classes";
 import EmptyColumn from "../Column/EmptyColumn";
 import { Provider } from "react-redux";
 import store from "@/store";
+import { restructureAllRows } from "@/utils/rows";
 
 const section_classes = 'ox-section ox-editable-section';
 
@@ -72,6 +72,10 @@ const addSectionToWebsite = (
             section.appendChild(content);
         }
     }
+
+    setTimeout(() => {
+        restructureAllRows();
+    })
 }
 
 
