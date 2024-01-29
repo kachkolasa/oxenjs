@@ -10,7 +10,7 @@ import {
 } from "@/utils/editable_classes";
 import { createColumnOptions } from "./Column/ColumnOptions";
 import createColumnDragImage from "./Column/ColumnDragImage";
-import { canAddColumn, getDragAfterElementColumn, restructureAllRows, restructureRow } from "@/utils/columns";
+import { canAddColumn, getDragAfterElementColumn, restructureAllRows } from "@/utils/columns";
 import createSectionDragImage from "./Section/SectionDragImage";
 import { getDragAfterElementSection } from "@/utils/sections";
 

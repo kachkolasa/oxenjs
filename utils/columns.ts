@@ -1,17 +1,8 @@
 import { editable_column_target_class } from "./editable_classes";
 import { generateRandomId } from "./helpers";
+import { restructureRow } from "./rows";
 
-export const restructureRow = (row: HTMLElement, column_dragging: Boolean = false) => {
-    const columns = row.querySelectorAll('.ox-section-col');
-    const columnCount = columns.length;
-    
-    if(columnCount === 0 && !column_dragging){
-        row.remove();
-        return;
-    }
 
-    row.setAttribute('data-cols', columnCount.toString());
-}
 
 export const restructureAllRows = (column_dragging: Boolean = false) => {
     const rows = document.querySelectorAll('.ox-section-row');
