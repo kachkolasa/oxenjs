@@ -98,3 +98,11 @@
     -webkit-user-select: none;
     -ms-user-select: none;
 }
+
+.ox-empty-column{
+    @apply border border-dashed border-gray-300 rounded-lg h-full min-h-[50px] w-full flex items-center justify-center text-gray-400 text-xl cursor-pointer;
+}
+
+.ox-sidenav-widget{
+    @apply rounded h-[80px] bg-white hover:bg-primary-500 hover:text-white text-center flex flex-wrap items-center justify-center cursor-grab;
+}
