@@ -98,6 +98,10 @@
         .ox-empty-column{
             @apply hidden;
         }
+
+        *{
+            pointer-events: none;
+        }
     }
 }
 
@@ -117,5 +121,6 @@
 }
 
 .ox-widget-placeholder{
-    @apply rounded h-[80px] bg-primary-500 w-full;
+    @apply rounded h-[80px] bg-primary-400 w-full;
+    pointer-events: none;
 }

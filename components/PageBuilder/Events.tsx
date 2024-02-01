@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import { pagebuilderActions } from '@/store/slices/pageBuilderSlice';
 import { createSectionOptions } from "./Section/SectionOptions";
@@ -16,9 +16,20 @@ import createSectionDragImage from "./Section/SectionDragImage";
 import { getDragAfterElementSection } from "@/utils/sections";
 import { sidenavActions } from "@/store/slices/sidenavSlice";
 import { createWidget, widgetsContent } from "./Widgets/Widget";
+import { getDragAfterElementWidget } from "@/utils/widgets";
 
 const OxenEvents = () => {
     const dispatch = useDispatch();
+    const [leaveTimeoutColumn, setLeaveTimeoutColumn] = useState<number | null>(null);
+
+    useEffect(() => {
+        // Cleanup on component unmount
+        return () => {
+            if (leaveTimeoutColumn !== null) {
+                clearTimeout(leaveTimeoutColumn);
+            }
+        };
+    }, [leaveTimeoutColumn]);
 
     useEffect(() => {
         const observeDOM = (obj: Element, callback: MutationCallback) => {
@@ -149,9 +160,11 @@ const OxenEvents = () => {
             }
         }
         const handleColumnDrop = (e: Event) => {
-            e.stopPropagation();
+            console.log('column drop')
+
+            // e.stopPropagation();
             e.preventDefault();
-    
+
             const target = e.target as HTMLDivElement;
     
             const column = target.closest('.ox-section-col');
@@ -182,15 +195,25 @@ const OxenEvents = () => {
             e.stopPropagation();
             e.preventDefault();
         }
-    
         const handleColumnDragOver = (e: Event) => {
             e.preventDefault(); // This line allows the drop to occur.
+            // e.stopPropagation();
 
             const dragEvent = e as DragEvent;
             const target = e.target as HTMLDivElement;
-
             const column = target.closest('.ox-section-col');
             if(!column) return;
+
+            const draggingWidget = document.body.getAttribute('data-dragging-widget');
+            if(!draggingWidget) return;
+
+            // Removing any ox-widget-placeholder 
+            document.querySelectorAll('.ox-widget-placeholder').forEach(placeholder => {
+                placeholder.remove();
+            });
+            
+            const placeholder = document.createElement('div');
+            placeholder.className = 'ox-widget-placeholder';
 
             // Removing the dragging-over class from all columns
             const columns = document.querySelectorAll('.ox-section-col');
@@ -200,7 +223,47 @@ const OxenEvents = () => {
 
             column.classList.add('dragging-over');
             
+            const afterWidget = getDragAfterElementWidget(column, dragEvent.clientY);
+            
+
+            if (placeholder.parentElement !== column) {
+                placeholder.parentElement?.removeChild(placeholder);
+            }
+        
+            if (afterWidget) {
+                column.insertBefore(placeholder, afterWidget.element);
+            } else {
+                column.appendChild(placeholder);
+            }
         }
+        const handleColumnDragLeave = (e: Event) => {
+            const dragEvent = e as DragEvent;
+            // Clear any existing timeout
+            if (leaveTimeoutColumn !== null) {
+                clearTimeout(leaveTimeoutColumn);
+            }
+    
+            const target = e.target as HTMLElement;
+            const relatedTarget = dragEvent.relatedTarget as HTMLElement;
+            const column = target.closest('.ox-section-col');
+    
+            // Set a new timeout
+            const newTimeout = window.setTimeout(() => {
+                if (!column || column.contains(relatedTarget)) {
+                    return;
+                }
+    
+                column.classList.remove('dragging-over');
+    
+                // Removing the placeholder
+                const placeholder = column.querySelector('.ox-widget-placeholder');
+                if (placeholder) {
+                    placeholder.remove();
+                }
+            }, 100);  // Adjust the delay as needed
+    
+            setLeaveTimeoutColumn(newTimeout);
+        };
 
         // Column Dragging Events
         const handleColumnGrabbleMouseEnter = (event: Event) => {
@@ -390,6 +453,7 @@ const OxenEvents = () => {
                 column.addEventListener('drop', handleColumnDrop);
                 column.addEventListener('dragenter', handleColumnDragEnter);
                 column.addEventListener('dragover', handleColumnDragOver);
+                column.addEventListener('dragleave', handleColumnDragLeave);
             });
 
             // Column Dragging
@@ -455,6 +519,7 @@ const OxenEvents = () => {
                 column.removeEventListener('drop', handleColumnDrop);
                 column.removeEventListener('dragenter', handleColumnDragEnter);
                 column.removeEventListener('dragover', handleColumnDragOver);
+                column.removeEventListener('dragleave', handleColumnDragLeave);
             });
 
             // Column Dragging
