@@ -171,6 +171,12 @@ const OxenEvents = () => {
 
             // Reset the dragging widget
             document.body.removeAttribute('data-dragging-widget');
+
+            // Reset the dragging column
+            const columns = document.querySelectorAll('.ox-section-col');
+            columns.forEach(column => {
+                column.classList.remove('dragging-over');
+            });
         }
         const handleColumnDragEnter = (e: Event) => {
             e.stopPropagation();
@@ -179,6 +185,21 @@ const OxenEvents = () => {
     
         const handleColumnDragOver = (e: Event) => {
             e.preventDefault(); // This line allows the drop to occur.
+
+            const dragEvent = e as DragEvent;
+            const target = e.target as HTMLDivElement;
+
+            const column = target.closest('.ox-section-col');
+            if(!column) return;
+
+            // Removing the dragging-over class from all columns
+            const columns = document.querySelectorAll('.ox-section-col');
+            columns.forEach(column => {
+                column.classList.remove('dragging-over');
+            });
+
+            column.classList.add('dragging-over');
+            
         }
 
         // Column Dragging Events
