@@ -90,6 +90,19 @@
 
         @apply overflow-hidden;
     }
+
+
+    &.dragging-over{
+        @apply border border-dashed border-primary-500;
+
+        .ox-empty-column{
+            @apply hidden;
+        }
+
+        *{
+            pointer-events: none;
+        }
+    }
 }
 
 .no-select{
@@ -105,4 +118,9 @@
 
 .ox-sidenav-widget{
     @apply rounded h-[80px] bg-white hover:bg-primary-500 hover:text-white text-center flex flex-wrap items-center justify-center cursor-grab;
+}
+
+.ox-widget-placeholder{
+    @apply rounded h-[80px] bg-primary-400 w-full;
+    pointer-events: none;
 }

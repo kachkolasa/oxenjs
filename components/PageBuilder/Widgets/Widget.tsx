@@ -63,7 +63,10 @@ const Widget = (props: Props) => {
 export const createWidget = (column: Element, widget: JSX.Element) => {
     const container = document.createElement('div');
     container.className = 'ox-widget-container';
-    column.appendChild(container);
+    
+    // Replacing the ox-widget-placeholder with the widget
+    const placeholder = column.querySelector('.ox-widget-placeholder');
+    placeholder?.replaceWith(container);
     createRoot(container).render(
         <Provider store={store}>
             {widget}

@@ -1,3 +1,8 @@
 .website{
     @apply bg-white w-full max-w-[calc(100vw-50px)] mx-auto h-[calc(100vh-60px)] overflow-y-auto relative;
+
+    user-select: none;
+    -moz-user-select: none;
+    -webkit-user-select: none;
+    -ms-user-select: none;
 }
