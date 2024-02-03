@@ -17,6 +17,8 @@ import { getDragAfterElementSection } from "@/utils/sections";
 import { sidenavActions } from "@/store/slices/sidenavSlice";
 import { createWidget, widgetsContent } from "./Widgets/Widget";
 import { getDragAfterElementWidget } from "@/utils/widgets";
+import { createColumnPaddingLeft } from "./Column/ColumnPaddingLeft";
+import { createColumnPaddingRight } from "./Column/ColumnPaddingRight";
 
 const OxenEvents = () => {
     const dispatch = useDispatch();
@@ -114,6 +116,16 @@ const OxenEvents = () => {
             if(column && !column.querySelector('.ox-column-options-container')){
                 createColumnOptions(column);
             }
+
+            // Showing the column left padding
+            if(column && !column.querySelector('.ox-column-padding-left-container')){
+                createColumnPaddingLeft(column);
+            }
+
+            // Showing the column right padding
+            if(column && !column.querySelector('.ox-column-padding-right-container')){
+                createColumnPaddingRight(column);
+            }
         }
         const handleColumnMouseLeave = (event: Event) => {
             const target = event.currentTarget as HTMLElement;
@@ -123,6 +135,18 @@ const OxenEvents = () => {
             const optionsContainer = column.querySelector('.ox-column-options-container');
             if(optionsContainer){
                 column.removeChild(optionsContainer);
+            }
+
+            // Removing the column left padding
+            const paddingContainer = column.querySelector('.ox-column-padding-left-container');
+            if(paddingContainer){
+                column.removeChild(paddingContainer);
+            }
+
+            // Removing the column right padding
+            const paddingContainerRight = column.querySelector('.ox-column-padding-right-container');
+            if(paddingContainerRight){
+                column.removeChild(paddingContainerRight);
             }
         }
         const handleColumnDragStart = (event: Event) => {
