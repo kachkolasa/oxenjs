@@ -1,4 +1,4 @@
-import { GearWideConnected, LayoutSidebarInsetReverse, LayoutThreeColumns } from 'react-bootstrap-icons';
+import { LayoutSidebarInsetReverse } from 'react-bootstrap-icons';
 import { createRoot } from 'react-dom/client';
 import Tooltip from '../../UI/Tooltip';
 import { Provider, useSelector } from 'react-redux';
@@ -13,7 +13,7 @@ const ColumnOptions = () => {
         <div className={column_options_class}>
             {/* Column Settings */}
             <Tooltip text="Edit/Drag">
-                <button className='flex gap-2 items-center p-3 cursor-grab ox-column-grabble'>
+                <button className='flex gap-2 w-[25px] h-[25px] items-center justify-center cursor-grab ox-column-grabble'>
                     <span className="rounded-l bg-primary-500 text-white flex items-center justify-center"><LayoutSidebarInsetReverse /></span>
                 </button>
             </Tooltip>
