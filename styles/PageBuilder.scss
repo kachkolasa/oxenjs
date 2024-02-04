@@ -182,3 +182,10 @@
     @apply rounded h-[80px] bg-primary-400 w-full;
     pointer-events: none;
 }
+
+// Widget Container
+.ox-editable-widget{
+    &:not(.editing){
+        @apply cursor-pointer hover:bg-primary-500/[0.1];
+    } 
+}
